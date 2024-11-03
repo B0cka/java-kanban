@@ -1,12 +1,14 @@
 import java.util.Objects;
 import java.util.HashMap;
+
 public class Task {
     private int id;
     private String title;
     private String description;
     private TaskStatus status;
 
-    public Task() {
+    public Task(){
+
     }
 
     public Task(String description, TaskStatus status, String title) {
@@ -46,4 +48,15 @@ public class Task {
     public void setStatus(TaskStatus status) {
         this.status = status;
     }
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+        ", description='" + description + '\'' +
+        ", status=" + status +
+                '}';
+    }
 }
+
+

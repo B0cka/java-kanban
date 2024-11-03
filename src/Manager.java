@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,30 +10,64 @@ public class Manager {
 
     private int id = 1;
 
-    public void createTask(Task task){
+
+    public void printAllTasks() {
+        if (tasks.isEmpty()) {
+            System.out.println("Список задач пуст.");
+        } else {
+            System.out.println("Список всех задач (Task):");
+            for (Task task : tasks.values()) {
+                System.out.println(task);
+            }
+        }
+    }
+
+    // Метод для вывода всех Epic
+    public void printAllEpics() {
+        if (epics.isEmpty()) {
+            System.out.println("Список эпиков пуст.");
+        } else {
+            System.out.println("Список всех эпиков (Epic):");
+            for (Epic epic : epics.values()) {
+                System.out.println(epic);
+            }
+        }
+    }
+
+    // Метод для вывода всех Subtask
+    public void printAllSubtasks() {
+        if (subtasks.isEmpty()) {
+            System.out.println("Список подзадач пуст.");
+        } else {
+            System.out.println("Список всех подзадач (Subtask):");
+            for (Subtask subtask : subtasks.values()) {
+                System.out.println(subtask);
+            }
+        }
+    }
+    public void createTask(Task task) {
         task.setId(id++);
         task.setStatus(TaskStatus.NEW);
         tasks.put(task.getId(), task);
     }
 
-    public void deleteTask(int id){
+    public void deleteTask(int id) {
         tasks.remove(id);
     }
 
-    public void updateTask(Task task){
+    public void updateTask(Task task) {
         if (tasks.containsKey(task.getId())) {
             tasks.put(task.getId(), task);
         }
     }
 
-    public void getTask(Task task){
+    public void getTask(Task task) {
         tasks.get(task.getId());
     }
 
-    public void removeTask(int id){
+    public void removeTask(int id) {
         tasks.remove(id);
     }
-
 
 
     //----------------------------------------------------------------//
@@ -48,28 +83,29 @@ public class Manager {
         return subtasksByEpic;
     }
 
-    public void createSubtask(Subtask subtask){
+
+    public void createSubtask(Subtask subtask) {
         subtask.setId(id++);
         subtask.setStatus(TaskStatus.NEW);
         subtasks.put(subtask.getId(), subtask);
         updateEpicStatus(subtask.getEpicId());
     }
 
-    public void deleteSubtask(int id){
+    public void deleteSubtask(int id) {
         subtasks.remove(id);
     }
 
-    public void updateSubtask(Subtask subtask){
+    public void updateSubtask(Subtask subtask) {
         if (subtasks.containsKey(subtask.getId())) {
             subtasks.put(subtask.getId(), subtask);
         }
     }
 
-    public void getSubtask(Subtask subtask){
+    public void getSubtask(Subtask subtask) {
         subtasks.get(subtask.getId());
     }
 
-    public void removeSubtask(int id){
+    public void removeSubtask(int id) {
         subtasks.remove(id);
     }
 
@@ -110,6 +146,9 @@ public class Manager {
     }
     //------------------------------------------------------------------//
 
+
+
+
     public void createEpic(Epic epic) {
         epic.setId(id++);
         epic.setStatus(TaskStatus.NEW);
@@ -119,6 +158,8 @@ public class Manager {
     public void deleteEpic(int id) {
         epics.remove(id);
     }
+
+    // Метод для вывода списка всех задач
 
     public void updateEpic(Epic epic) {
         if (epics.containsKey(epic.getId())) {

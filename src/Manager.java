@@ -10,40 +10,18 @@ public class Manager {
 
     private int id = 1;
 
-
-    public void printAllTasks() {
-        if (tasks.isEmpty()) {
-            System.out.println("Список задач пуст.");
-        } else {
-            System.out.println("Список всех задач (Task):");
-            for (Task task : tasks.values()) {
-                System.out.println(task);
-            }
-        }
+    public ArrayList<Task> getAllTasks() {
+        return new ArrayList<>(tasks.values());
     }
 
-    // Метод для вывода всех Epic
-    public void printAllEpics() {
-        if (epics.isEmpty()) {
-            System.out.println("Список эпиков пуст.");
-        } else {
-            System.out.println("Список всех эпиков (Epic):");
-            for (Epic epic : epics.values()) {
-                System.out.println(epic);
-            }
-        }
+    // Получение списка всех эпиков (Epic)
+    public ArrayList<Epic> getAllEpics() {
+        return new ArrayList<>(epics.values());
     }
 
-    // Метод для вывода всех Subtask
-    public void printAllSubtasks() {
-        if (subtasks.isEmpty()) {
-            System.out.println("Список подзадач пуст.");
-        } else {
-            System.out.println("Список всех подзадач (Subtask):");
-            for (Subtask subtask : subtasks.values()) {
-                System.out.println(subtask);
-            }
-        }
+    // Получение списка всех подзадач (Subtask)
+    public ArrayList<Subtask> getAllSubtasks() {
+        return new ArrayList<>(subtasks.values());
     }
     public void createTask(Task task) {
         task.setId(id++);

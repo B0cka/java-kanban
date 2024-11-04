@@ -43,9 +43,22 @@ public class Main {
         System.out.println("Subtasks");
         System.out.println(subtask2_1.getTitle() + ": " + subtask2_1.getDescription() + " (Status: " + subtask2_1.getStatus() + ")");
         System.out.println("/-----------------------------/");
-        manager.printAllTasks();
-        manager.printAllEpics();
-        manager.printAllSubtasks();
+        System.out.println("Tasks:");
+        for (Task task : manager.getAllTasks()) {
+            System.out.println(task.getTitle() + ": " + task.getDescription() + " (Status: " + task.getStatus() + ")");
+        }
+
+        // Вывод всех эпиков
+        System.out.println("Epics:");
+        for (Epic epic : manager.getAllEpics()) {
+            System.out.println(epic.getTitle() + ": " + epic.getDescription() + " (Status: " + epic.getStatus() + ")");
+        }
+
+        // Вывод всех подзадач
+        System.out.println("Subtasks:");
+        for (Subtask subtask : manager.getAllSubtasks()) {
+            System.out.println(subtask.getTitle() + ": " + subtask.getDescription() + " (Status: " + subtask.getStatus() + ")");
+        }
     }
 
 }

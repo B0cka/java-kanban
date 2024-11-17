@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class InMemoryTaskManager implements TaskManager, HistoryManager {
+public class InMemoryTaskManager implements TaskManager {
 
     private HashMap<Integer, Task> tasks = new HashMap<>();
     private HashMap<Integer, Epic> epics = new HashMap<>();
@@ -188,13 +188,6 @@ public class InMemoryTaskManager implements TaskManager, HistoryManager {
         return new ArrayList<>(history);
     }
 
-    @Override
-    public void add(Task task) {
-        history.add(task);
-        if (history.size() > 10) { // Ограничение на 10 элементов
-            history.remove(0);
-        }
-    }
 
     @Override
     public void addToHistory(Task task) {

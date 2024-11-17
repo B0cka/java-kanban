@@ -1,13 +1,14 @@
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class InMemoryTaskManager implements TaskManager {
+public class InMemoryTaskManager implements TaskManager, HistoryManager {
 
     private HashMap<Integer, Task> tasks = new HashMap<>();
     private HashMap<Integer, Epic> epics = new HashMap<>();
     private HashMap<Integer, Subtask> subtasks = new HashMap<>();
-
+    private final ArrayList<Task> history = new ArrayList<>(10);
     private int id = 1;
 
     @Override
@@ -46,8 +47,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void getTask(Task task) {
-        tasks.get(task.getId());
+    public Task getTask(int id) {
+        Task task = tasks.get(id); // Получаем задачу по ID
+        if (task != null) {
+            addToHistory(task); // Добавляем в историю, если задача найдена
+        }
+        return task; // Возвращаем задачу
     }
 
     @Override
@@ -92,8 +97,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void getSubtask(Subtask subtask) {
-        subtasks.get(subtask.getId());
+    public Subtask getSubtask(int id) {
+        Subtask subtask = subtasks.get(id); // Получаем подзадачу по ID
+        if (subtask != null) {
+            addToHistory(subtask); // Добавляем в историю
+        }
+        return subtask; // Возвращаем подзадачу
     }
 
     @Override
@@ -162,7 +171,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic getEpicById(int id) {
-        return epics.get(id);
+        Epic epic = epics.get(id); // Получаем эпик по ID
+        if (epic != null) {
+            addToHistory(epic); // Добавляем в историю
+        }
+        return epic; // Возвращаем эпик
     }
 
     @Override
@@ -170,4 +183,24 @@ public class InMemoryTaskManager implements TaskManager {
         epics.remove(id);
     }
 
+    @Override
+    public ArrayList<Task> getHistory(){
+        return new ArrayList<>(history);
+    }
+
+    @Override
+    public void add(Task task) {
+        history.add(task);
+        if (history.size() > 10) { // Ограничение на 10 элементов
+            history.remove(0);
+        }
+    }
+
+    @Override
+    public void addToHistory(Task task) {
+        history.add(task);
+        if (history.size() > 10) {
+            history.remove(0);
+        }
+    }
 }

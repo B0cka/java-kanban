@@ -1,12 +1,18 @@
+package Managers;
+
+import Tasks.Epic;
+import Tasks.Subtask;
+import Tasks.Task;
+
 import java.util.ArrayList;
 
 public interface TaskManager {
     ArrayList<Task> getAllTasks();
 
-    // Получение списка всех эпиков (Epic)
+    // Получение списка всех эпиков (Tasks.Epic)
     ArrayList<Epic> getAllEpics();
 
-    // Получение списка всех подзадач (Subtask)
+    // Получение списка всех подзадач (Tasks.Subtask)
     ArrayList<Subtask> getAllSubtasks();
 
     void createTask(Task task);

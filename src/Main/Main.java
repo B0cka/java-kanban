@@ -1,3 +1,11 @@
+package Main;
+
+import Managers.InMemoryTaskManager;
+import Tasks.Epic;
+import Tasks.Subtask;
+import Tasks.Task;
+import Tasks.TaskStatus;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -8,23 +16,23 @@ public class Main {
         inMemoryTaskManager.createTask(task1);
         inMemoryTaskManager.createTask(task2);
 
-        Epic epic1 = new Epic("Epic 1", "Description of Epic 1", TaskStatus.NEW);
+        Epic epic1 = new Epic("Tasks.Epic 1", "Description of Tasks.Epic 1", TaskStatus.NEW);
         inMemoryTaskManager.createEpic(epic1);
 
-        Epic epic2 = new Epic("Epic 2", "Description of Epic 2", TaskStatus.NEW);
+        Epic epic2 = new Epic("Tasks.Epic 2", "Description of Tasks.Epic 2", TaskStatus.NEW);
         inMemoryTaskManager.createEpic(epic2);
 
-        Subtask subtask1_1 = new Subtask("Subtask 1.1", TaskStatus.NEW, "Subtask Title 1.1", "Title", "Description", TaskStatus.NEW);
+        Subtask subtask1_1 = new Subtask("Tasks.Subtask 1.1", TaskStatus.NEW, "Tasks.Subtask Title 1.1", "Title", "Description", TaskStatus.NEW);
         subtask1_1.setEpicId(epic1.getId()); // Присваиваем эпик к подзадаче
 
-        Subtask subtask1_2 = new Subtask("Subtask 1.2", TaskStatus.NEW, "Subtask Title 1.2", "Title", "Description", TaskStatus.NEW);
+        Subtask subtask1_2 = new Subtask("Tasks.Subtask 1.2", TaskStatus.NEW, "Tasks.Subtask Title 1.2", "Title", "Description", TaskStatus.NEW);
         subtask1_2.setEpicId(epic1.getId()); // Присваиваем эпик к подзадаче
 
         inMemoryTaskManager.createSubtask(subtask1_2);
         inMemoryTaskManager.createSubtask(subtask1_1);
 
         // Создание подзадачи для второго эпика
-        Subtask subtask2_1 = new Subtask("Subtask 2.1", TaskStatus.NEW, "Subtask Title 2.1", "Title", "Description", TaskStatus.NEW);
+        Subtask subtask2_1 = new Subtask("Tasks.Subtask 2.1", TaskStatus.NEW, "Tasks.Subtask Title 2.1", "Title", "Description", TaskStatus.NEW);
         subtask2_1.setEpicId(epic2.getId()); // Присваиваем эпик к подзадаче
         inMemoryTaskManager.createSubtask(subtask2_1);
 

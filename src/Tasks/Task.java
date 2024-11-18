@@ -1,5 +1,6 @@
+package Tasks;
+
 import java.util.Objects;
-import java.util.HashMap;
 
 public class Task {
     private int id;
@@ -63,7 +64,7 @@ public class Task {
     }
     @Override
     public String toString() {
-        return "Task{" +
+        return "Tasks.Task{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
         ", description='" + description + '\'' +

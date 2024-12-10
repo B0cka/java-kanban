@@ -1,109 +1,92 @@
 package Tests;
 
+import Managers.InMemoryHistoryManager;
 import Managers.HistoryManager;
-import Managers.InMemoryTaskManager;
-import Managers.Manager;
-import Managers.TaskManager;
-import Tasks.Epic;
-import Tasks.Subtask;
 import Tasks.Task;
 import Tasks.TaskStatus;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class TaskManagerTests {
+class InMemoryHistoryManagerTests {
 
-    @Test
-    void testTaskEquality() {
-        Task task1 = new Task("Tasks.Task 1", TaskStatus.NEW, "Title 1");
-        task1.setId(1);  // Задаем id вручную для проверки
-        Task task2 = new Task("Tasks.Task 1", TaskStatus.NEW, "Title 1");
-        task2.setId(1);  // id тоже равен 1
+    private HistoryManager historyManager;
 
-        assertEquals(task1, task2, "Tasks should be equal when their ids are the same.");
+    @BeforeEach
+    void setUp() {
+        historyManager = new InMemoryHistoryManager();
     }
 
     @Test
-    void testEpicEquality() {
-        Epic epic1 = new Epic("Tasks.Epic 1", "Description", TaskStatus.NEW);
-        epic1.setId(1);
-        Epic epic2 = new Epic("Tasks.Epic 1", "Description", TaskStatus.NEW);
-        epic2.setId(1);
+    void testAddTaskToHistory() {
+        Task task = new Task("Task 1", TaskStatus.NEW, "Description");
+        task.setId(1);
+        historyManager.add(task);
 
-        assertEquals(epic1, epic2, "Epics should be equal when their ids are the same.");
+        List<Task> history = historyManager.getHistory();
+        assertEquals(1, history.size(), "History should contain one task.");
+        assertEquals(task, history.get(0), "The added task should be in the history.");
     }
 
     @Test
-    void testSubtaskEquality() {
-        Subtask subtask1 = new Subtask("Tasks.Subtask 1", TaskStatus.NEW, "Tasks.Subtask", "Tasks.Epic Title", "Tasks.Epic Description", TaskStatus.NEW);
-        subtask1.setId(1);
-        Subtask subtask2 = new Subtask("Tasks.Subtask 1", TaskStatus.NEW, "Tasks.Subtask", "Tasks.Epic Title", "Tasks.Epic Description", TaskStatus.NEW);
-        subtask2.setId(1);
-
-        assertEquals(subtask1, subtask2, "Subtasks should be equal when their ids are the same.");
-    }
-
-    @Test
-    void testManagersReturnInitializedManagers() {
-        TaskManager taskManager = Manager.getDefault();
-        assertNotNull(taskManager, "The manager returned by Managers.getDefault should be initialized and ready to use.");
-    }
-
-    @Test
-    void testHistoryManagerReturnInitialized() {
-        HistoryManager historyManager = Manager.getDefaultHistory();
-        assertNotNull(historyManager, "The Managers.HistoryManager returned by Managers.getDefaultHistory should be initialized.");
-    }
-
-    @Test
-    void testAddAndFindTasks() {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
-
-        Task task = new Task("Test Tasks.Task", TaskStatus.NEW, "Title");
-        manager.createTask(task);
-
-        Epic epic = new Epic("Test Tasks.Epic", "Description", TaskStatus.NEW);
-        manager.createEpic(epic);
-
-        Subtask subtask = new Subtask("Test Tasks.Subtask", TaskStatus.NEW, "Tasks.Subtask Title", "Tasks.Epic Title", "Tasks.Epic Description", TaskStatus.NEW);
-        subtask.setEpicId(epic.getId());
-        manager.createSubtask(subtask);
-
-        assertNotNull(manager.getTask(task.getId()), "Tasks.Task should be found by id.");
-        assertNotNull(manager.getEpicById(epic.getId()), "Tasks.Epic should be found by id.");
-        assertNotNull(manager.getSubtask(subtask.getId()), "Tasks.Subtask should be found by id.");
-    }
-
-    @Test
-    void testTaskIdConflict() {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
-
-        Task task1 = new Task("Test Tasks.Task 1", TaskStatus.NEW, "Title");
+    void testRemoveTaskFromHistory() {
+        Task task1 = new Task("Task 1", TaskStatus.NEW, "Description");
         task1.setId(1);
-        manager.createTask(task1);
+        Task task2 = new Task("Task 2", TaskStatus.NEW, "Description");
+        task2.setId(2);
 
-        Task task2 = new Task("Test Tasks.Task 2", TaskStatus.NEW, "Title");
-        task2.setId(2); // Не конфликтует с task1
+        historyManager.add(task1);
+        historyManager.add(task2);
 
-        manager.createTask(task2);
+        historyManager.remove(task1.getId());
 
-        assertEquals(task1.getId(), manager.getTask(task1.getId()).getId(), "Tasks.Task 1 should be correctly retrieved.");
-        assertEquals(task2.getId(), manager.getTask(task2.getId()).getId(), "Tasks.Task 2 should be correctly retrieved.");
+        List<Task> history = historyManager.getHistory();
+        assertEquals(1, history.size(), "History should contain one task after removal.");
+        assertEquals(task2, history.get(0), "The remaining task should be Task 2.");
     }
 
     @Test
-    void testTaskImmutabilityWhenAdded() {
-        InMemoryTaskManager manager = new InMemoryTaskManager();
-
-        Task task = new Task("Test Tasks.Task", TaskStatus.NEW, "Title");
+    void testRemoveNonExistentTask() {
+        Task task = new Task("Task 1", TaskStatus.NEW, "Description");
         task.setId(1);
 
-        manager.createTask(task);
+        historyManager.add(task);
+        historyManager.remove(999); // Удаляем несуществующую задачу
 
-        Task retrievedTask = manager.getTask(task.getId());
-        assertEquals(task.getTitle(), retrievedTask.getTitle(), "Tasks.Task title should remain unchanged.");
-        assertEquals(task.getDescription(), retrievedTask.getDescription(), "Tasks.Task description should remain unchanged.");
-        assertEquals(task.getStatus(), retrievedTask.getStatus(), "Tasks.Task status should remain unchanged.");
+        List<Task> history = historyManager.getHistory();
+        assertEquals(1, history.size(), "History should remain unchanged when removing a non-existent task.");
+    }
+
+    @Test
+    void testHistoryOrder() {
+        Task task1 = new Task("Task 1", TaskStatus.NEW, "Description");
+        task1.setId(1);
+        Task task2 = new Task("Task 2", TaskStatus.NEW, "Description");
+        task2.setId(2);
+
+        historyManager.add(task1);
+        historyManager.add(task2);
+
+        List<Task> history = historyManager.getHistory();
+        assertEquals(2, history.size(), "History should contain two tasks.");
+        assertEquals(task1, history.get(0), "Task 1 should be first in history.");
+        assertEquals(task2, history.get(1), "Task 2 should be second in history.");
+    }
+
+    @Test
+    void testUpdateTaskInHistory() {
+        Task task = new Task("Task 1", TaskStatus.NEW, "Description");
+        task.setId(1);
+
+        historyManager.add(task);
+        historyManager.add(task); // Добавляем ту же задачу второй раз
+
+        List<Task> history = historyManager.getHistory();
+        assertEquals(1, history.size(), "History should contain only one instance of the task.");
+        assertEquals(task, history.get(0), "The task should be in the history only once.");
     }
 
 }

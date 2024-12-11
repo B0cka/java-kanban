@@ -12,7 +12,7 @@ public class main {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
 
         Task task1 = new Task("First task", TaskStatus.NEW, "Task_1");
-        Task task2 =  new Task("it`s second pf tasks, i believ thats it great", TaskStatus.NEW, "Task_2" );
+        Task task2 =  new Task("it`s second pf tasks, i believ thats it great", TaskStatus.NEW, "Task 2" );
         inMemoryTaskManager.createTask(task1);
         inMemoryTaskManager.createTask(task2);
 

@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 import Managers.InMemoryTaskManager;
 import Tasks.Epic;
@@ -6,7 +6,7 @@ import Tasks.Subtask;
 import Tasks.Task;
 import Tasks.TaskStatus;
 
-public class Main {
+public class main {
 
     public static void main(String[] args) {
         InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();

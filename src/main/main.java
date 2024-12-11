@@ -1,10 +1,10 @@
 package main;
 
 import Managers.InMemoryTaskManager;
-import Task.Epic;
-import Task.Subtask;
-import Task.Task;
-import Task.TaskStatus;
+import Tasks.Epic;
+import Tasks.Subtask;
+import Tasks.Task;
+import Tasks.TaskStatus;
 
 public class main {
 

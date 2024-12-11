@@ -2,8 +2,8 @@ package Tests;
 
 import Managers.InMemoryHistoryManager;
 import Managers.HistoryManager;
-import Task.Task;
-import Task.TaskStatus;
+import Tasks.Task;
+import Tasks.TaskStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

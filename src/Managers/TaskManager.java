@@ -1,7 +1,6 @@
 package Managers;
 
 import tasks.Epic;
-import tasks.Subtask;
 import tasks.Task;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ public interface TaskManager {
     ArrayList<Epic> getAllEpics();
 
     // Получение списка всех подзадач (Tasks.Subtask)
-    ArrayList<Subtask> getAllSubtasks();
+    ArrayList<Epic.Subtask> getAllSubtasks();
 
     void createTask(tasks.Task task);
 
@@ -26,15 +25,15 @@ public interface TaskManager {
     void removeTask(int id);
 
     //----------------------------------------------------------------//
-    ArrayList<Subtask> getSubtasksByEpicId(int epicId);
+    ArrayList<Epic.Subtask> getSubtasksByEpicId(int epicId);
 
-    void createSubtask(Subtask subtask);
+    void createSubtask(Epic.Subtask subtask);
 
     void deleteSubtask(int id);
 
-    void updateSubtask(Subtask subtask);
+    void updateSubtask(Epic.Subtask subtask);
 
-    Subtask getSubtask(int id);
+    Epic.Subtask getSubtask(int id);
 
     void removeSubtask(int id);
 

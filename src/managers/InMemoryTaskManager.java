@@ -31,6 +31,7 @@ public class InMemoryTaskManager implements TaskManager {
     public ArrayList<Epic.Subtask> getAllSubtasks() {
         return new ArrayList<>(subtasks.values());
     }
+
     @Override
     public void createTask(tasks.Task task) {
         task.setId(id++);
@@ -188,7 +189,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getHistory(){
+    public ArrayList<Task> getHistory() {
         return new ArrayList<>(history);
     }
 

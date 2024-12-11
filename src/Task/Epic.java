@@ -1,4 +1,4 @@
-package Tasks;
+package Task;
 
 import java.util.ArrayList;
 import java.util.Objects;

@@ -1,6 +1,6 @@
 package Managers;
 
-import Tasks.Task;
+import Task.Task;
 
 
 import java.util.ArrayList;

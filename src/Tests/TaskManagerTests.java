@@ -2,10 +2,10 @@ package Tests;
 
 import managers.InMemoryHistoryManager;
 import managers.HistoryManager;
-import tasks.Task;
-import tasks.TaskStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tasks.Task;
+import tasks.TaskStatus;
 
 import java.util.List;
 

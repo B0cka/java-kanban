@@ -18,6 +18,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             removeNode(node); // Удаляем узел из связного списка
         }
     }
+
     @Override
     public List<Task> getHistory() {
         List<Task> history = new ArrayList<>();
@@ -62,6 +63,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         nodes.remove(node.task.getId()); // Удаляем из HashMap
     }
+
     @Override
     public void add(Task task) {
         if (nodes.containsKey(task.getId())) {

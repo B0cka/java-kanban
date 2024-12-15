@@ -13,9 +13,9 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        Node node = nodes.get(id); // Ищем узел в HashMap
+        Node node = nodes.get(id);
         if (node != null) {
-            removeNode(node); // Удаляем узел из связного списка
+            removeNode(node);
         }
     }
 
@@ -24,8 +24,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         List<Task> history = new ArrayList<>();
         Node current = head;
         while (current != null) {
-            history.add(current.task); // Добавляем задачу из узла
-            current = current.next;   // Переходим к следующему узлу
+            history.add(current.task);
+            current = current.next;
         }
         return history;
     }
@@ -52,16 +52,16 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (node.prev != null) {
             node.prev.next = node.next;
         } else {
-            head = node.next; // Если удаляем первый узел
+            head = node.next;
         }
 
         if (node.next != null) {
             node.next.prev = node.prev;
         } else {
-            tail = node.prev; // Если удаляем последний узел
+            tail = node.prev;
         }
 
-        nodes.remove(node.task.getId()); // Удаляем из HashMap
+        nodes.remove(node.task.getId());
     }
 
     @Override

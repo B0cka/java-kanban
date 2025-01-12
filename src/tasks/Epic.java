@@ -1,7 +1,7 @@
 package tasks;
 
 import managers.InMemoryTaskManager;
-import managers.TaskManager;
+;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static java.util.Locale.filter;
+
 
 public class Epic extends Task {
     private Duration duration;

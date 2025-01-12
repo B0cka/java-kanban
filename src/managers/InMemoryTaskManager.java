@@ -1,8 +1,12 @@
 package managers;
 
 import tasks.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 public class InMemoryTaskManager implements TaskManager {
     protected final HashMap<Integer, Task> tasks = new HashMap<>();
@@ -178,5 +182,29 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
         return subtasksByEpic;
+    }
+
+    private final TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime, Comparator.nullsLast(Comparator.naturalOrder())));
+
+    public void addTask(Task task) {
+        if (isOverlapping(task)) {
+            throw new IllegalArgumentException("Task overlaps with an existing task.");
+        }
+        prioritizedTasks.add(task);
+        tasks.put(task.getId(), task);
+    }
+
+    public boolean isOverlapping(Task task) {
+        return prioritizedTasks.stream()
+                .anyMatch(existingTask -> tasksOverlap(existingTask, task));
+    }
+
+    private boolean tasksOverlap(Task t1, Task t2) {
+        if (t1.getStartTime() == null || t2.getStartTime() == null) return false;
+
+        LocalDateTime t1End = t1.getEndTime();
+        LocalDateTime t2End = t2.getEndTime();
+        return t1End != null && t2End != null &&
+                !(t1End.isBefore(t2.getStartTime()) || t2End.isBefore(t1.getStartTime()));
     }
 }

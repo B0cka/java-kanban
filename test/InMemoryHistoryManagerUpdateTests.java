@@ -30,4 +30,6 @@ class InMemoryHistoryManagerUpdateTests {
         assertEquals(1, history.size(), "History should contain only one instance of the task.");
         assertEquals(task, history.get(0), "The task should be in the history only once.");
     }
+
+
 }

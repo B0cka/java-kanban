@@ -1,3 +1,4 @@
+import managers.InMemoryHistoryManager;
 import managers.InMemoryTaskManager;
 import managers.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -103,4 +104,59 @@ class InMemoryTaskManagerTest {
         assertEquals(3, taskManager.getHistory().size());
     }
 
+    @Test
+    void shouldDetectOverlappingIntervals() {
+
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        Task task1 = new Task("Description 1", TaskStatus.NEW, "Task 1");
+        task1.setStartTime(LocalDateTime.of(2023, 1, 1, 10, 0));
+        task1.setDuration(Duration.ofHours(2));
+        taskManager.addTask(task1);
+
+
+        Task task2 = new Task("Description 2", TaskStatus.NEW, "Task 2");
+        task2.setStartTime(LocalDateTime.of(2023, 1, 1, 13, 0));
+        task2.setDuration(Duration.ofHours(2));
+        assertDoesNotThrow(() -> taskManager.addTask(task2));
+
+
+        Task task3 = new Task("Description 3", TaskStatus.NEW, "Task 3");
+        task3.setStartTime(LocalDateTime.of(2023, 1, 1, 11, 0));
+        task3.setDuration(Duration.ofHours(2));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> taskManager.addTask(task3));
+        assertEquals("Task overlaps with an existing task.", exception.getMessage());
+    }
+
+    @Test
+    void shouldNotOverlapForNullStartTime() {
+
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        Task task1 = new Task("Description 1", TaskStatus.NEW, "Task 1");
+        task1.setStartTime(LocalDateTime.of(2023, 1, 1, 10, 0));
+        task1.setDuration(Duration.ofHours(2));
+        taskManager.addTask(task1);
+
+        // Создаём задачу без времени начала
+        Task task2 = new Task("Description 2", TaskStatus.NEW, "Task 2");
+        task2.setStartTime(null);
+        task2.setDuration(null);
+
+        assertDoesNotThrow(() -> taskManager.addTask(task2));
+    }
+
+    @Test
+    void shouldAllowAddingTasksWhenNoOverlap() {
+
+        InMemoryTaskManager taskManager = new InMemoryTaskManager();
+        Task task1 = new Task("Description 1", TaskStatus.NEW, "Task 1");
+        task1.setStartTime(LocalDateTime.of(2023, 1, 1, 10, 0));
+        task1.setDuration(Duration.ofHours(2));
+
+        Task task2 = new Task("Description 2", TaskStatus.NEW, "Task 2");
+        task2.setStartTime(LocalDateTime.of(2023, 1, 1, 12, 0));
+        task2.setDuration(Duration.ofHours(2));
+
+        assertDoesNotThrow(() -> taskManager.addTask(task1));
+
+    }
 }

@@ -1,5 +1,7 @@
 package tasks;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -7,6 +9,8 @@ public class Task {
     private String title;
     private String description;
     private TaskStatus status;
+    private Duration duration;
+    private LocalDateTime startTime;
 
     public Task() {
 
@@ -16,6 +20,23 @@ public class Task {
         this.description = description;
         this.status = status;
         this.title = title;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    // Добавлены методы для установки значений
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 
     @Override
@@ -68,10 +89,13 @@ public class Task {
         return "Tasks.Task{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-        ", description='" + description + '\'' +
-        ", status=" + status +
+                ", description='" + description + '\'' +
+                ", status=" + status +
                 '}';
     }
+
+    public LocalDateTime getEndTime() {
+        return startTime.plus(duration);
+    }
+
 }
-
-

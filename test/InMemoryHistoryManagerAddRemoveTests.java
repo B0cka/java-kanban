@@ -52,7 +52,7 @@ class InMemoryHistoryManagerAddRemoveTests {
         task.setId(1);
 
         historyManager.add(task);
-        historyManager.remove(999); // Удаляем несуществующую задачу
+        historyManager.remove(999);
 
         List<Task> history = historyManager.getHistory();
         assertEquals(1, history.size(), "History should remain unchanged when removing a non-existent task.");

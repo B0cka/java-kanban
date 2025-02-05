@@ -7,8 +7,11 @@ import managers.InMemoryTaskManager;
 import java.io.IOException;
 
 public class PrioritizedHandler extends BaseHttpHandler {
+
     private final InMemoryTaskManager inMemoryTaskManager;
+
     private final Gson gson = new Gson();
+
     public PrioritizedHandler(InMemoryTaskManager taskManager) {
         this.inMemoryTaskManager = taskManager;
     }

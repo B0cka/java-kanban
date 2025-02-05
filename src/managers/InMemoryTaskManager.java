@@ -53,7 +53,9 @@ public class InMemoryTaskManager implements TaskManager {
 
         if (epic == null) {
             throw new IllegalArgumentException("Ошибка: эпик с ID " + subtask.getEpicId() + " не найден");
-        }        subtasks.put(subtask.getId(), subtask);
+        }
+
+        subtasks.put(subtask.getId(), subtask);
 
         epics.get(subtask.getEpicId()).addSubtask(subtask.getId());
         updateEpicStatus(subtask.getEpicId());

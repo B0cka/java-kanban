@@ -5,15 +5,13 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Subtask extends Task {
-    private int epicId;
-    private Duration duration;
-    private LocalDateTime startTime;
+    private int epicId = 1;
 
     public Subtask(String description, TaskStatus status, String title, int epicId) {
         super(description, status, title);
         this.epicId = epicId;
     }
-
+    public Subtask() {}
     public int getEpicId() {
         return epicId;
     }

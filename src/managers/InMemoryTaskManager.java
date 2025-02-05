@@ -33,22 +33,28 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void createTask(Task task) {
         task.setId(id++);
-
         tasks.put(task.getId(), task);
     }
 
     @Override
     public void createEpic(Epic epic) {
         epic.setId(id++);
-
         epics.put(epic.getId(), epic);
     }
 
     @Override
     public void createSubtask(Subtask subtask) {
+        if (subtask == null) {
+            throw new IllegalArgumentException("Ошибка: подзадача не может быть null");
+        }
         subtask.setId(id++);
 
-        subtasks.put(subtask.getId(), subtask);
+        Epic epic = epics.get(subtask.getEpicId());
+
+        if (epic == null) {
+            throw new IllegalArgumentException("Ошибка: эпик с ID " + subtask.getEpicId() + " не найден");
+        }        subtasks.put(subtask.getId(), subtask);
+
         epics.get(subtask.getEpicId()).addSubtask(subtask.getId());
         updateEpicStatus(subtask.getEpicId());
     }
@@ -58,6 +64,7 @@ public class InMemoryTaskManager implements TaskManager {
         Task task = tasks.get(id);
         if (task != null) {
             addToHistory(task);
+            System.out.println(getHistory());
         }
         return task;
     }
@@ -131,15 +138,19 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public ArrayList<Task> getHistory() {
-        return new ArrayList<>(history);
+        return history;
     }
 
-    private void addToHistory(Task task) {
+    public void addToHistory(Task task) {
         history.add(task);
         if (history.size() > 10) {
             history.remove(0);
         }
+        System.out.println("Added to history: " + task);
+        System.out.println("Current history: " + history);
     }
+
+
 
     private void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
@@ -184,6 +195,10 @@ public class InMemoryTaskManager implements TaskManager {
         return subtasksByEpic;
     }
 
+    public TreeSet<Task> getPrioritizedTasks() {
+        return prioritizedTasks;
+    }
+
     private final TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime, Comparator.nullsLast(Comparator.naturalOrder())));
 
     public void addTask(Task task) {
@@ -207,4 +222,10 @@ public class InMemoryTaskManager implements TaskManager {
         return t1End != null && t2End != null &&
                 !(t1End.isBefore(t2.getStartTime()) || t2End.isBefore(t1.getStartTime()));
     }
+
+
+    public boolean epicExists(int epicId) {
+        return epics.containsKey(epicId);
+    }
+
 }

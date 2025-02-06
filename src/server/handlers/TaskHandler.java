@@ -50,7 +50,7 @@ public class TaskHandler extends BaseHttpHandler {
                 } catch (NumberFormatException e) {
                     sendText(exchange, "Некорректный ID", 400);
                 }
-                System.out.println("History after adding task(task): " + inMemoryTaskManager.getHistory());
+
             } else if ("POST".equals(method) && pathParts.length == 2) {
                 InputStreamReader reader = new InputStreamReader(exchange.getRequestBody());
                 Task task = gson.fromJson(reader, Task.class);

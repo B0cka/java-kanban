@@ -35,7 +35,7 @@ public class SubtaskHandler extends BaseHttpHandler {
             if ("GET".equals(method) && pathParts.length == 2) {
                 sendText(exchange, gson.toJson(inMemoryTaskManager.getAllSubtasks()), 200);
 
-                System.out.println("History after adding task(sub): " + inMemoryTaskManager.getHistory());
+
             } else if ("GET".equals(method) && pathParts.length == 3) {
                 try {
                     int subtaskId = Integer.parseInt(pathParts[2]);
@@ -49,7 +49,7 @@ public class SubtaskHandler extends BaseHttpHandler {
                 } catch (NumberFormatException e) {
                     sendText(exchange, "Некорректный ID", 400);
                 }
-                System.out.println("History after adding task(sub): " + inMemoryTaskManager.getHistory());
+
             } else if ("POST".equals(method) && pathParts.length == 2) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
                 String requestBody = reader.lines().collect(Collectors.joining());
@@ -73,7 +73,7 @@ public class SubtaskHandler extends BaseHttpHandler {
             } else {
                 sendNotFound(exchange);
             }
-            System.out.println("History after adding task(sub): " + inMemoryTaskManager.getHistory());
+
         } catch (Exception e) {
             e.printStackTrace();
             sendText(exchange, "Ошибка сервера: " + e.getMessage(), 500);

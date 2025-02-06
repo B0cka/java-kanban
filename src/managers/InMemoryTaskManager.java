@@ -149,10 +149,7 @@ public class InMemoryTaskManager implements TaskManager {
             history.remove(0);
         }
         System.out.println("Added to history: " + task);
-        System.out.println("Current history: " + history);
     }
-
-
 
     private void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
@@ -224,7 +221,6 @@ public class InMemoryTaskManager implements TaskManager {
         return t1End != null && t2End != null &&
                 !(t1End.isBefore(t2.getStartTime()) || t2End.isBefore(t1.getStartTime()));
     }
-
 
     public boolean epicExists(int epicId) {
         return epics.containsKey(epicId);

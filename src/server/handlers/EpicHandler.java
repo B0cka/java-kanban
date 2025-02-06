@@ -33,7 +33,7 @@ public class EpicHandler extends BaseHttpHandler {
             if ("GET".equals(method) && pathParts.length == 2) {
                 sendText(exchange, gson.toJson(inMemoryTaskManager.getAllEpics()), 200);
                 System.out.println(inMemoryTaskManager.getHistory());
-                System.out.println("History after adding task(epic): " + inMemoryTaskManager.getHistory());
+
             } else if ("GET".equals(method) && pathParts.length == 3) {
                 try {
                     int epicId = Integer.parseInt(pathParts[2]);
@@ -48,7 +48,7 @@ public class EpicHandler extends BaseHttpHandler {
                     sendText(exchange, "Некорректный ID", 400);
                 }
                 System.out.println(inMemoryTaskManager.getHistory());
-                System.out.println("History after adding task(epic): " + inMemoryTaskManager.getHistory());
+
             } else if ("POST".equals(method) && pathParts.length == 2) {
                 InputStreamReader reader = new InputStreamReader(exchange.getRequestBody());
                 Epic epic = gson.fromJson(reader, Epic.class);
@@ -68,7 +68,7 @@ public class EpicHandler extends BaseHttpHandler {
             } else {
                 sendNotFound(exchange);
             }
-            System.out.println("History after adding task(epic): " + inMemoryTaskManager.getHistory());
+
         } catch (Exception e) {
             e.printStackTrace();
             sendText(exchange, "Ошибка сервера: " + e.getMessage(), 500);

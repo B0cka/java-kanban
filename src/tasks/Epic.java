@@ -11,10 +11,11 @@ import java.util.Objects;
 
 
 
+
 public class Epic extends Task {
-    private Duration duration;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private Duration epicDuration;
+    private LocalDateTime epicStartTime;
+    private LocalDateTime epicEndTime;
     InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
     private ArrayList<Integer> subtaskIds;
 
@@ -64,18 +65,18 @@ public class Epic extends Task {
 
     public void updateTimeFields() {
         List<Subtask> subtasks = inMemoryTaskManager.getAllSubtasks();
-        duration = subtasks.stream()
+        epicDuration = subtasks.stream()
                 .filter(task -> task.getDuration() != null)
                 .map(Task::getDuration)
                 .reduce(Duration.ZERO, Duration::plus);
 
-        startTime = subtasks.stream()
+        epicStartTime = subtasks.stream()
                 .filter(task -> task.getStartTime() != null)
                 .map(Task::getStartTime)
                 .min(LocalDateTime::compareTo)
                 .orElse(null);
 
-        endTime = subtasks.stream()
+        epicEndTime = subtasks.stream()
                 .filter(task -> task.getEndTime() != null)
                 .map(Task::getEndTime)
                 .max(LocalDateTime::compareTo)

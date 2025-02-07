@@ -1,6 +1,7 @@
 package main;
 
 import managers.InMemoryTaskManager;
+
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
@@ -11,7 +12,7 @@ public class Main {
         InMemoryTaskManager taskManager = new InMemoryTaskManager();
 
 
-        Task task1 = new Task("First task", TaskStatus.NEW, "Description for Task 1");
+        Task task1 = new Task("First tas4k", TaskStatus.NEW, "Description for Task 1");
         Task task2 = new Task("Second task", TaskStatus.NEW, "Description for Task 2");
 
         taskManager.createTask(task1);
@@ -57,4 +58,6 @@ public class Main {
             System.out.println(subtask.getTitle() + ": " + subtask.getDescription() + " (Status: " + subtask.getStatus() + ")");
         }
     }
+
+
 }
